@@ -4,114 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock, Paper, Scissors Game</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        button {
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="game-container">
+        <label for="game-number">Number of Turns:</label>
+        <input type="number" id="game-number" placeholder="Enter turns">
 
-    <label for="game-number">Number of turns: </label>
-    <input type="number" id="game-number" data-ns-test="game-number">
+        <button id="play-game" onclick="startGame()">Play Game</button>
 
-    <button id="play-game" onclick="startGame()" data-ns-test="play-game">Play</button>
+        <div class="options">
+            <button id="rock" onclick="userChoice('rock')">Rock</button>
+            <button id="paper" onclick="userChoice('paper')">Paper</button>
+            <button id="scissors" onclick="userChoice('scissors')">Scissors</button>
+        </div>
 
-    <h2 data-ns-test="rounds-left">Rounds Left: </h2>
-    <h2 data-ns-test="user-points">User Points: 0</h2>
-    <h2 data-ns-test="computer-points">Computer Points: 0</h2>
+        <div class="result">
+            <p>Computer chooses: <span id="computer-choose" data-ns-test="computer-choose"></span></p>
+            <p>Round Result: <span id="round-result" data-ns-test="round-result"></span></p>
+            <p>Rounds Left: <span id="rounds-left" data-ns-test="rounds-left"></span></p>
+            <p>User Points: <span id="user-points" data-ns-test="user-points"></span></p>
+            <p>Computer Points: <span id="computer-points" data-ns-test="computer-points"></span></p>
+        </div>
 
-    <div>
-        <button onclick="userChoice('rock')" data-ns-test="rock">Rock</button>
-        <button onclick="userChoice('paper')" data-ns-test="paper">Paper</button>
-        <button onclick="userChoice('scissors')" data-ns-test="scissors">Scissors</button>
+        <p id="game-result" data-ns-test="game-result"></p>
     </div>
 
-    <h3 data-ns-test="computer-choose">Computer chooses: </h3>
-    <h3 data-ns-test="round-result">Round Result: </h3>
-
-    <h1 data-ns-test="game-result"></h1>
-
-    <script>
-        let roundsLeft, userPoints, computerPoints, gameNumber;
-
-        function startGame() {
-            gameNumber = document.getElementById("game-number").value;
-            roundsLeft = gameNumber;
-            userPoints = 0;
-            computerPoints = 0;
-
-            updateDisplay();
-
-            document.querySelector("[data-ns-test=game-result]").innerText = "";
-        }
-
-        function userChoice(choice) {
-            if (roundsLeft > 0) {
-                const computerChoose = Math.floor(Math.random() * 3); // 0, 1, or 2
-                const result = getResult(choice, computerChoose);
-
-                if (result === "WON") {
-                    userPoints++;
-                } else if (result === "LOSE") {
-                    computerPoints++;
-                }
-
-                roundsLeft--;
-                updateDisplay();
-                document.querySelector("[data-ns-test=computer-choose]").innerText = `Computer chooses: ${getChoiceName(computerChoose)}`;
-                document.querySelector("[data-ns-test=round-result]").innerText = `Round Result: ${result}`;
-
-                if (roundsLeft === 0) {
-                    document.querySelector("[data-ns-test=game-result]").innerText = getGameResult();
-                }
-            }
-        }
-
-        function getResult(userChoice, computerChoice) {
-            const choices = ["rock", "paper", "scissors"];
-            const userIndex = choices.indexOf(userChoice);
-            const computerIndex = choices.indexOf(getChoiceName(computerChoice));
-
-            if (userIndex === computerIndex) {
-                return "TIE";
-            } else if ((userIndex + 1) % 3 === computerIndex) {
-                return "LOSE";
-            } else {
-                return "WON";
-            }
-        }
-
-        function getChoiceName(choiceIndex) {
-            const choices = ["rock", "paper", "scissors"];
-            return choices[choiceIndex];
-        }
-
-        function getGameResult() {
-            if (userPoints > computerPoints) {
-                return "WON";
-            } else if (userPoints < computerPoints) {
-                return "LOSE";
-            } else {
-                return "TIE";
-            }
-        }
-
-        function updateDisplay() {
-            document.querySelector("[data-ns-test=rounds-left]").innerText = `Rounds Left: ${roundsLeft}`;
-            document.querySelector("[data-ns-test=user-points]").innerText = `User Points: ${userPoints}`;
-            document.querySelector("[data-ns-test=computer-points]").innerText = `Computer Points: ${computerPoints}`;
-        }
-    </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
